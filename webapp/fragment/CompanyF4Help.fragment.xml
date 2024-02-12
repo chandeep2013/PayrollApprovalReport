@@ -1,0 +1,25 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+>
+    <SelectDialog
+        title="{i18n>company}"
+        items="{
+			path: 'valueHelp>/company',
+			sorter: {
+				path: 'name'
+			}
+		}"
+        search="onSearchCompany"
+        confirm="onSelectCompany"
+        cancel="onSelectCompany"
+        multiSelect="true"
+    >
+        <StandardListItem
+            id="idCompanyTable"
+            title="{valueHelp>externalCode}"
+            description="{valueHelp>name}"
+            info="{valueHelp>country}"
+        />
+    </SelectDialog>
+</core:FragmentDefinition>

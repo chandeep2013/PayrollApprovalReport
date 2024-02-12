@@ -1,0 +1,342 @@
+<mvc:View
+    controllerName="com.mgc.uatpayrollreportui.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc"
+    displayBlock="true"
+    xmlns="sap.m"
+    xmlns:l="sap.ui.layout"
+    xmlns:core="sap.ui.core"
+    xmlns:fb="sap.ui.comp.filterbar"
+    xmlns:webc="sap.ui.webc.main"
+>
+    <Page title="{i18n>title}">
+        <customHeader>
+            <OverflowToolbar>
+                <content>
+                    <ToolbarSpacer />
+                    <Title text="{i18n>payroll}" />
+                    <ToolbarSpacer />
+                </content>
+            </OverflowToolbar>
+        </customHeader>
+        <fb:FilterBar
+            reset="onReset"
+            search="onSearch"
+            showFilterConfiguration="true"
+        >
+            <fb:filterGroupItems>
+                <fb:FilterGroupItem
+                    groupName="group1"
+                    name="Pay Period"
+                    label="{i18n>payPeriod}"
+                    visibleInFilterBar="true"
+                >
+                    <fb:control>
+                        <Input
+                            id="idPayPeriodComboBox"
+                            placeholder="{i18n>payPeriod}"
+                            showValueHelp="true"
+                            valueHelpRequest="onPayPeriodF4"
+                            change="onChangePayPeriodF4Help"
+                        />
+                    </fb:control>
+                </fb:FilterGroupItem>
+                <fb:FilterGroupItem
+                    groupName="group1"
+                    name="Company"
+                    label="{i18n>company}"
+                    visibleInFilterBar="true"
+                >
+                    <fb:control>
+                        <MultiInput
+                            id="companyInput"
+                            placeholder="{i18n>company}"
+                            showValueHelp="true"
+                            valueHelpRequest="onCompanyF4"
+                            change="onChangeF4Help"
+                        />
+                    </fb:control>
+                </fb:FilterGroupItem>
+                <fb:FilterGroupItem
+                    groupName="group1"
+                    name="Resource"
+                    label="{i18n>resource}"
+                    visibleInFilterBar="true"
+                >
+                    <fb:control>
+                        <MultiInput
+                            id="resourceInput"
+                            placeholder="{i18n>resource}"
+                            showValueHelp="true"
+                            valueHelpRequest="onResourceF4"
+                            change="onChangeResource"
+                        />
+                    </fb:control>
+                </fb:FilterGroupItem>
+                <fb:FilterGroupItem
+                    groupName="group1"
+                    name="Payroll Status"
+                    label="{i18n>payrollStatus}"
+                    visibleInFilterBar="true"
+                >
+                    <fb:control>
+                        <ComboBox
+                            id="idPayrollStatus"
+                            placeholder="{i18n>status}"
+                        >
+                            <items>
+                                <core:Item
+                                    key="01"
+                                    text=""
+                                />
+                                <core:Item
+                                    key="02"
+                                    text="{i18n>executed}"
+                                />
+                                <core:Item
+                                    key="03"
+                                    text="{i18n>notExecuted}"
+                                />
+                            </items>
+                        </ComboBox>
+                    </fb:control>
+                </fb:FilterGroupItem>
+                <fb:FilterGroupItem
+                    groupName="group1"
+                    name="Timesheet Status"
+                    label="{i18n>timeSheetStatus}"
+                    visibleInFilterBar="true"
+                >
+                    <fb:control>
+                        <ComboBox
+                            id="idTimesheetStatusSelection"
+                            placeholder="{i18n>timeSheetStatus}"
+                        >
+                            <items>
+                                <core:Item
+                                    key="01"
+                                    text=""
+                                />
+                                <core:Item
+                                    key="02"
+                                    text="{i18n>inprogress}"
+                                />
+                                <core:Item
+                                    key="03"
+                                    text="{i18n>approved}"
+                                />
+                            </items>
+                        </ComboBox>
+                    </fb:control>
+                </fb:FilterGroupItem>
+                <fb:FilterGroupItem
+                    groupName="group1"
+                    name="Start Date"
+                    label="{i18n>startDate}"
+                    visibleInFilterBar="true"
+                >
+                    <fb:control>
+                        <DatePicker
+                            id="idStartDate"
+                            valueFormat="yyyy-MM-dd"
+                            displayFormat="yyyy-MM-dd"
+                            placeholder="{i18n>startDate}"
+                            change="onDateFieldChange"
+                        />
+                    </fb:control>
+                </fb:FilterGroupItem>
+                <fb:FilterGroupItem
+                    groupName="group1"
+                    name="Finish Date"
+                    label="{i18n>finishDate}"
+                    visibleInFilterBar="true"
+                >
+                    <fb:control>
+                        <DatePicker
+                            id="idFinishDate"
+                            valueFormat="yyyy-MM-dd"
+                            displayFormat="yyyy-MM-dd"
+                            placeholder="{i18n>finishDate}"
+                            change="onDateFieldChange"
+                        />
+                    </fb:control>
+                </fb:FilterGroupItem>
+                <fb:FilterGroupItem
+                    groupName="group1"
+                    name="Personal Subarea"
+                    label="{i18n>personalSubArea}"
+                    visibleInFilterBar="true"
+                >
+                    <fb:control>
+                        <MultiInput
+                            id="idSubarea"
+                            placeholder="{i18n>personalSubArea}"
+                            showValueHelp="true"
+                            valueHelpRequest="onSubAreaF4"
+                            change="onChangeF4Help"
+                        />
+                    </fb:control>
+                </fb:FilterGroupItem>
+                <fb:FilterGroupItem
+                    groupName="group1"
+                    name="Location"
+                    label="{i18n>location}"
+                    visibleInFilterBar="true"
+                >
+                    <fb:control>
+                        <MultiInput
+                            id="idLocation"
+                            placeholder="{i18n>location}"
+                            showValueHelp="true"
+                            valueHelpRequest="onLocationF4"
+                            change="onChangeF4Help"
+                        />
+                    </fb:control>
+                </fb:FilterGroupItem>
+            </fb:filterGroupItems>
+        </fb:FilterBar>
+        <content>
+            <Table
+                id="listTab"
+                autoPopinMode="true"
+                mode="MultiSelect"
+                sticky="ColumnHeaders,HeaderToolbar"
+                items="{ path: 'payroll>/timesheetData',
+			             sorter: {
+				            path: 'PayPeriodBeginDate'
+			                }
+		                }"
+                growing="true"
+                growingThreshold="50"
+                growingScrollToLoad="true"
+            >
+                <headerToolbar>
+                    <OverflowToolbar>
+                        <Label id="idTimesheetItems"/>
+                        <ToolbarSpacer />
+                        <Button id="idVacationAccural" enabled="false"
+                            text="{i18n>vacAccr}"
+                            press="onCalculateVacationAccrual"
+                        />
+                        <Button
+                            text="{i18n>rtot}"
+                            press="onCalculateRTOT"
+                        />
+                        <Button
+                            icon="sap-icon://download-from-cloud"
+                            text="{i18n>export}"
+                            press="onExportTimeData"
+                        />
+                        <Button
+                            icon="sap-icon://upload-to-cloud"
+                            text="{i18n>import}"
+                            type="Emphasized"
+                            press="onPressImportHoliday"
+                        />
+                    </OverflowToolbar>
+                </headerToolbar>
+                <columns>
+                    <Column>
+                        <Label text="{i18n>company}" />
+                    </Column>
+                    <Column>
+                        <Label text="{i18n>resource}" />
+                    </Column>
+                    <Column width="12rem">
+                        <Label text="{i18n>timePeriod}" />
+                    </Column>
+                    <Column>
+                        <Label text="{i18n>periodHours}" />
+                    </Column>
+                    <Column>
+                        <Label
+                            text="{i18n>rt}"
+                            tooltip="{i18n>regularTime}"
+                        />
+                    </Column>
+                    <Column>
+                        <Label
+                            text="{i18n>ot}"
+                            tooltip="{i18n>overTime}"
+                        />
+                    </Column>
+                    <Column>
+                        <Label
+                            text="{i18n>other}"
+                            tooltip="{i18n>other}"
+                            wrapping="true"
+                        />
+                    </Column>
+                    <Column>
+                        <Label text="{i18n>timeSheetStatus}" />
+                    </Column>
+                    <Column>
+                        <Label text="{i18n>status}" />
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem
+                        type="Active"
+                        press="onTimePeriodListItemSelect"
+                    >
+                        <cells>
+                            <Text text="{payroll>CompanyName}" />
+                            <Text text="{payroll>EmployeeName}" />
+                            <Text
+                                text="{payroll>PayPeriodBeginDate} to {payroll>PayPeriodEndDate}"
+                            />
+                            <!--Text
+                                text="{ parts: [ {path: 'payroll>PayCode'},{path: 'payroll>TotalHoursPercentage'} ], formatter: '.formatter.TotalHoursCalculation' }"
+                            /-->
+                            <Text text="{payroll>TotalHoursPercentage}" />
+                            <Text text="{payroll>RegularTime}" />
+                            <Text text="{payroll>OverTime}" />
+                            <Text text="{payroll>PayCode}" />
+                            <!--Text
+                                text="{ parts: [ {path: 'payroll>PayCode'} ], formatter: '.formatter.PayCodeCount' }"
+                            /-->
+                            <ObjectNumber
+                                number="{payroll>SaveSubmitStatus}"
+                                state="{ parts: [ {path: 'payroll>SaveSubmitStatus'} ], formatter: '.formatter.StatusValue' }"
+                            />
+                            <!--ObjectNumber
+                                number="{ parts: [ {path: 'payroll>SaveSubmitStatus'} ], formatter: '.formatter.SaveSubmitStatusText' }"
+                                state="{ parts: [ {path: 'payroll>SaveSubmitStatus'} ], formatter: '.formatter.StatusValue' }"
+                            /-->
+                            <ObjectNumber
+                                number="{payroll>PayrollApprovalStatus}"
+                                state="{ parts: [ {path: 'payroll>PayrollApprovalStatus'} ], formatter: '.formatter.Status' }"
+                            />
+                            <!--ObjectNumber
+                                number="{ parts: [ {path: 'payroll>PayrollApprovalStatus'} ], formatter: '.formatter.StatusName' }"
+                                state="{ parts: [ {path: 'payroll>PayrollApprovalStatus'} ], formatter: '.formatter.Status' }"
+                            /-->
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </content>
+        <footer>
+            <OverflowToolbar>
+                <ToolbarSpacer />
+                <Button
+                    text="{i18n>approve}"
+                    press="onPressApprove"
+                    class="sapUiSmallMarginBeginEnd"
+                />
+                <Button
+                    icon="sap-icon://validate"
+                    type="Success"
+                    text="{i18n>submitForPayroll}"
+                    press="onPressApproveCPI"
+                    class="sapUiSmallMarginBeginEnd"
+                />
+                <Button visible="false"
+                    type="Negative"
+                    text="{i18n>cancel}"
+                    press="onCrtDialogClose"
+                    class="sapUiSmallMarginEnd"
+                />
+            </OverflowToolbar>
+        </footer>
+    </Page>
+</mvc:View>

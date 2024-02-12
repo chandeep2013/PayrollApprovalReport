@@ -1,0 +1,25 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+>
+    <SelectDialog
+        title="{i18n>resource}"
+        items="{
+			path: 'valueHelp>/emp',
+			sorter: {
+				path: 'FirstName'
+			}
+		}"
+        search="onSearchEmployee"
+        confirm="onSelectEmployee"
+        cancel="onSelectEmployee"
+        multiSelect="true"
+    >
+        <StandardListItem
+            id="idEmpTable"
+            title="{valueHelp>FirstName} {valueHelp>LastName}"
+            description="{valueHelp>ID}"
+        />
+    </SelectDialog>
+</core:FragmentDefinition>
+
